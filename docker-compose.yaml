@@ -2,11 +2,13 @@ services:
   nats:
     image: nats  # Образ NATS
     entrypoint: /nats-server  # Команда запуска сервера внутри контейнера
+    command: "-c /config/server.conf" # Путь настроек JetStream
     ports:
       - "4222:4222"  # Основной порт для взаимодействия с сервером
       - "8222:8222"  # Порт для мониторинга сервера по HTTP
     volumes:
       - ./nats/data:/data  # Путь, по которому NATS-сервер будет хранить данные вне контейнера
+      - ./nats/config/server.conf:/config/server.conf
 
   nats-nui:
     image: ghcr.io/nats-nui/nui:latest
